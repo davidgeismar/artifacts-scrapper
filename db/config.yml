@@ -1,0 +1,31 @@
+# config/database.yml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: host.docker.internal
+
+development:
+  <<: *default
+  database: artifacts_scrapper_development
+
+test: &test
+  <<: *default
+  database: artifacts_scrapper_test
+
+production:
+# docker run --add-host=database:188.213.138.132 -it davidgeismar/artifacts-scrapper /bin/bash
+# ENV['DATABASE_URL'] ||= "postgres://localhost/artifacts_scrapper_test?pool=5"
+# ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+# require 'logger'
+# ActiveRecord::Base.logger = Logger.new(STDOUT)
+#
+# # Set up database tables and columns
+# ActiveRecord::Schema.define do
+#   create_table :sales, force: true do |t|
+#     t.jsonb :details
+#   end
+#   create_table :lots, force: true do |t|
+#     t.jsonb :details
+#   end
+# end
