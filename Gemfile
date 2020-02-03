@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'rspec'
+gem 'activesupport'
+gem 'activerecord'
+gem 'standalone_migrations', '5.2.7'
+gem 'pg'
+gem 'httparty'
+gem 'nokogiri'
+gem 'mechanize'
+gem 'pry-byebug'
