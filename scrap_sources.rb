@@ -1,5 +1,3 @@
-require './christies/christies'
-require 'logger'
-ActiveRecord::Base.logger = Logger.new(STDOUT)
+require_relative 'artifacts_scrapper'
 
 Christies::Scrapper.new.run

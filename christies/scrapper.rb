@@ -12,21 +12,28 @@ module Christies
     def run
       [1998].each do |year|
         [1].each do |month|
-          FileUtils.mkdir_p  "#{year}/#{month}"
-          sales = SalesExtractor.new(month, year).sales
-          sales.first(2).each do |sale|
-            sale.save!
-            errors_report = Report.new('errors.json')
-            report = Report.new("#{year}/#{month}/#{sale.title.parameterize}.json")
-            lots = LotsExtractor.new(@agent, sale.christies_id, report).lots
-            lots.each do |lot|
-              lot = LotExtractor.new(@agent, lot, report)
-              Lot.create(details: lot.data)
-            end
-            binding.pry
-          end
+          extract_sales(month, year)
         end
       end
+    end
+
+    def extract_sales(month, year)
+      errors_report = Report.new('errors.json')
+      sales = SalesExtractor.new(month, year).sales
+      sales.first(2).each do |sale|
+        extract_lots(sale, month, year)
+      end
+    end
+
+    def extract_lots(sale, month, year)
+      # report = Report.new("#{year}/#{month}/#{sale.title.parameterize}.json")
+      lots = LotsExtractor.new(@agent, sale.christies_id).lots
+      lots.each { |lot| extract_lot(lot) }
+    end
+
+    def extract_lot(lot, report=nil)
+      lot = LotExtractor.new(@agent, lot)
+      Lot.create(details: lot.data)
     end
   end
 end

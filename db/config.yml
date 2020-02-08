@@ -2,9 +2,13 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 5
+  user: davidgeismar
+  pool: 20
+  host: localhost
+docker_development:
+  <<: *default
+  database: artifacts_scrapper_development
   host: host.docker.internal
-
 development:
   <<: *default
   database: artifacts_scrapper_development
@@ -16,7 +20,6 @@ test: &test
 production:
 # docker run --add-host=database:188.213.138.132 -it davidgeismar/artifacts-scrapper /bin/bash
 # ENV['DATABASE_URL'] ||= "postgres://localhost/artifacts_scrapper_test?pool=5"
-# ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 # require 'logger'
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
 #

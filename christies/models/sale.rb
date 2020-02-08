@@ -1,5 +1,11 @@
 module Christies
   class Sale < ActiveRecord::Base
+    after_commit :send_to_api
+
+    def send_to_api
+      SaleProcessingJob.perform_async(self.id)
+    end
+
     def is_online_only
       details['is_online_only']
     end
