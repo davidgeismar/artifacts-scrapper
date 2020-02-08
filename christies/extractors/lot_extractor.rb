@@ -1,7 +1,7 @@
 module Christies
   class LotExtractor
     attr_accessor :data
-    def initialize(agent, lot, errors_report)
+    def initialize(agent, lot, errors_report=nil)
       @uri = lot['LotLink']
       @lot = lot
       @page = agent.get(@uri)
