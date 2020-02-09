@@ -4,10 +4,11 @@ require './christies/christies'
 require 'logger'
 require 'yaml'
 require 'dotenv'
+require 'erb'
 
 
-Dotenv.load
+template = ERB.new File.new("./db/config.yml.erb").read
+info = YAML::load template.result(binding)
 binding.pry
-info = YAML::load(IO.read("./db/config.yml"))
 ActiveRecord::Base.establish_connection(info[ENV["ARTIFACTS_ENV"]])
 ActiveRecord::Base.logger = Logger.new(STDOUT)

@@ -7,3 +7,5 @@ services:
     environment:
       - REDIS_URL=redis://redis-server:6379/0
       - ARTIFACTS_ENV=docker_development
+    volumes:
+      - .:/usr/src/artifacts_scrapper
