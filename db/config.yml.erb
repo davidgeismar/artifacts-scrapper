@@ -7,20 +7,19 @@ default: &default
   host: localhost
 docker_development:
   <<: *default
-  database: artifacts_scrapper_development
+  database: artifacts_scrapper_docker_development
   host: host.docker.internal
 development:
   <<: *default
   database: artifacts_scrapper_development
-
-test: &test
+test:
   <<: *default
   database: artifacts_scrapper_test
-
 production:
   adapter: postgresql
   encoding: unicode
   username: <%= ENV["DATABASE_USERNAME"] %>
   host: <%= ENV["DATABASE_URL"] %>
   password: <%= ENV["DATABASE_PASSWORD"] %>
+  database: database-1
   pool: 20
