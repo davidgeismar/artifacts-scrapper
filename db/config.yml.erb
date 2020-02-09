@@ -1,0 +1,27 @@
+# config/database.yml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  user: davidgeismar
+  pool: 20
+  host: localhost
+docker_development:
+  <<: *default
+  database: artifacts_scrapper_development
+  host: host.docker.internal
+development:
+  <<: *default
+  database: artifacts_scrapper_development
+
+test: &test
+  <<: *default
+  database: artifacts_scrapper_test
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  username: <%= ENV["DATABASE_USERNAME"] %>
+  host: <%= ENV["DATABASE_URL"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  pool: 20
+  host: localhost
