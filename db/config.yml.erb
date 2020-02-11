@@ -19,7 +19,7 @@ production:
   adapter: postgresql
   encoding: unicode
   username: <%= ENV["DATABASE_USERNAME"] %>
-  host: <%= ENV["DATABASE_URL"] %>
+  host: <%= ENV["DB_URL"] %>
   password: <%= ENV["DATABASE_PASSWORD"] %>
   database: artifacts_scrapper_production
   port: 5432
