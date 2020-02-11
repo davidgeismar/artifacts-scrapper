@@ -9,6 +9,12 @@ module Christies
       @data = get_data
     end
 
+    # different options
+    # raise an error if the node is not found and end program
+    # enter nil value if no node
+    # raise error rescue enter nil and report error in file
+    private
+
     def get_data
       lot = { lotDetails: @lot }
       if @item_unavailable
@@ -18,10 +24,6 @@ module Christies
       end
     end
 
-    # different options
-    # raise an error if the node is not found and end program
-    # enter nil value if no node
-    # raise error rescue enter nil and report error in file
     def extra_lot_details
       { extra_details: {
           lotName: {
