@@ -3,15 +3,17 @@ module Christies
     YEAR_RANGE = (1998..2020)
     MONTH_RANGE = (1..12)
 
-    def initialize
+    def initialize(month=nil, year=nil)
       @agent = Mechanize.new
       @agent.redirect_ok = false
       @errors = []
+      @years = year ? [year] : YEAR_RANGE
+      @months = month ? [month] : MONTH_RANGE
     end
 
     def run
-      [1998].each do |year|
-        [1].each do |month|
+      @years.each do |year|
+        @months.each do |month|
           extract_sales(month, year)
         end
       end
