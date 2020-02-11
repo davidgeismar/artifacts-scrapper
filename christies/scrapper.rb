@@ -1,4 +1,5 @@
 module Christies
+  WITH_JOBS = ENV['WITH_JOBS'] == 'true'
   class Scrapper
     YEAR_RANGE = (1998..2020)
     MONTH_RANGE = (1..12)
