@@ -1,5 +1,4 @@
 module Christies
-  WITH_JOBS = ENV['WITH_JOBS'] == 'true'
   class Scrapper
     YEAR_RANGE = (1998..2020)
     MONTH_RANGE = (1..12)
@@ -8,8 +7,8 @@ module Christies
       @agent = Mechanize.new
       @agent.redirect_ok = false
       @errors = []
-      @years = year ? [year] : YEAR_RANGE
-      @months = month ? [month] : MONTH_RANGE
+      @years = year ? [year] : [1998]
+      @months = month ? [month] : [1]
     end
 
     def run
