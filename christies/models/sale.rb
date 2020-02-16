@@ -1,10 +1,10 @@
 module Christies
   class Sale < ActiveRecord::Base
-    after_commit :send_to_api if ENV['WITH_JOBS']
+    after_commit :send_to_api, if: ENV['WITH_JOBS']
 
     def send_to_api
-      binding.pry
       SaleProcessingJob.perform_async(self.id)
+      binding.pry
     end
 
     def is_online_only

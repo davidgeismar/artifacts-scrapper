@@ -12,6 +12,7 @@ module Christies
     end
 
     def run
+      binding.pry
       @years.each do |year|
         @months.each do |month|
           extract_sales(month, year)

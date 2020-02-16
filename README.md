@@ -36,7 +36,11 @@ docker container kill $(docker ps -q)
  is located in VPC vpc-35c6b85d
 
 
- bundle exec rake scrap_sources:scrap"[christies,2,3]"
+## README
+redis-cli FLUSHALL
+=> get read of all jobs
+
+ bundle exec rake scrap_sources:scrap"[[christies],2,3]"
  Traceback (most recent call last):
 	19: from scrap_sources.rb:3:in `<main>'
 	18: from /usr/src/artifacts_scrapper/christies/scrapper.rb:13:in `run'
