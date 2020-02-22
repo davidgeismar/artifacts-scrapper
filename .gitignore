@@ -1,3 +1,4 @@
 docker-compose.production.yml
 docker-compose.yml
 dump.rdb
+.env

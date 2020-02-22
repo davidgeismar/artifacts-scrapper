@@ -3,7 +3,7 @@ module Christies
     attr_accessor :sales
     def initialize(month, year)
       results = HTTParty.get(build_uri(month, year))
-      @sales = JSON.parse(results)['calendar_section']['calendar_items'].map { |sale| Sale.create(origin: christies, details: sale['sale_detail']) }
+      @sales = JSON.parse(results)['calendar_section']['calendar_items']
     end
 
     private

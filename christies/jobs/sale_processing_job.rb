@@ -2,12 +2,11 @@ module Christies
   class SaleProcessingJob
     include Sidekiq::Worker
 
-    def perform(sale_id)
-      sale = Sale.find(sale_id)
+    def perform(sale)
       HTTParty.post(
-        "#{ENV['DATA_API_BASE']}/sales",
+        "#{ENV['DATA_API_BASE']}/christies/sales",
         body: {
-          sale: sale.to_json
+          data: sale
         }
       )
     end

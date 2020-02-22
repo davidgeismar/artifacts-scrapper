@@ -12,7 +12,6 @@ module Christies
     end
 
     def run
-      binding.pry
       @years.each do |year|
         @months.each do |month|
           extract_sales(month, year)
@@ -21,22 +20,29 @@ module Christies
     end
 
     def extract_sales(month, year)
-      errors_report = Report.new('errors.json')
       sales = SalesExtractor.new(month, year).sales
-      sales.first(2).each do |sale|
-        extract_lots(sale, month, year)
+      sales.first(10).each do |sale|
+        payload = build_payload(sale['sale_detail'], month, year)
+        SaleProcessingJob.perform_async(payload)
+        binding.pry
       end
     end
 
-    def extract_lots(sale, month, year)
-      # report = Report.new("#{year}/#{month}/#{sale.title.parameterize}.json")
-      lots = LotsExtractor.new(@agent, sale.christies_id).lots
-      lots.each { |lot| extract_lot(lot) }
+    def build_payload(sale_details, month, year)
+      {
+        sale: sale_details,
+        lots: extract_lots(sale_details['sale_id'], month, year)
+      }.to_json
+    end
+
+    def extract_lots(sale_id, month, year)
+      lots = LotsExtractor.new(@agent, sale_id).lots
+      lots.first(10).map { |lot| extract_lot(lot) }
     end
 
     def extract_lot(lot, report=nil)
       lot = LotExtractor.new(@agent, lot)
-      Lot.create(details: lot.data)
+      lot.data
     end
   end
 end

@@ -1,8 +1,6 @@
 
-require 'standalone_migrations'
 require './artifacts_scrapper'
 require 'pry-byebug'
-StandaloneMigrations::Tasks.load_tasks
 
 namespace :scrap_sources do
   desc "scraps the different sources"
