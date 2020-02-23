@@ -21,10 +21,9 @@ module Christies
 
     def extract_sales(month, year)
       sales = SalesExtractor.new(month, year).sales
-      sales.first(10).each do |sale|
+      sales.first(1).each do |sale|
         payload = build_payload(sale['sale_detail'], month, year)
         SaleProcessingJob.perform_async(payload)
-        binding.pry
       end
     end
 
@@ -37,7 +36,7 @@ module Christies
 
     def extract_lots(sale_id, month, year)
       lots = LotsExtractor.new(@agent, sale_id).lots
-      lots.first(10).map { |lot| extract_lot(lot) }
+      lots.first(1).map { |lot| extract_lot(lot) }
     end
 
     def extract_lot(lot, report=nil)

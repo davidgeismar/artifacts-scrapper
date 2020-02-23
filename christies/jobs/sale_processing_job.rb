@@ -3,12 +3,16 @@ module Christies
     include Sidekiq::Worker
 
     def perform(sale)
-      HTTParty.post(
-        "#{ENV['DATA_API_BASE']}/christies/sales",
-        body: {
-          data: sale
-        }
-      )
+      response = HTTParty.post(
+          "#{ENV['DATA_API_BASE']}/christies/sales",
+          body: {
+            data: sale
+          }
+        )
+      if response.code === 500
+        logger.debug "ARTIFACTS DATA API failed to process #{sale}"
+        logger.info response
+      end
     end
   end
 end

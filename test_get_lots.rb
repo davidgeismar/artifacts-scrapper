@@ -61,7 +61,5 @@ lotlist.each do |lot|
   agent.redirect_ok = false
   page = agent.get(lot['LotLink'])
   lotsData << build_lot_data(lot, page)
-  binding.pry
 end
-binding.pry
 response

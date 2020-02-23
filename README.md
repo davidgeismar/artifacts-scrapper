@@ -1,5 +1,6 @@
 ## FOR LOCAL DEV WITHOUT DOCKER
 rake db:create db:migrate
+sidekiq -C ./config/sidekiq.yml -r ./artifacts_scrapper.rb
 bundle exec sidekiq -r ./artifacts_scrapper.rb
 ruby scrap_sources.rb
 
