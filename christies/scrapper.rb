@@ -1,14 +1,17 @@
 module Christies
+  LOGGER = Logger.new("| tee ./log/christies.log")
   class Scrapper
     YEAR_RANGE = (1998..2020)
     MONTH_RANGE = (1..12)
 
     def initialize(month=nil, year=nil)
+      # cleaning logs every time the scrapper is launched
+      File.truncate('./log/christies.log', 0)
       @agent = Mechanize.new
       @agent.redirect_ok = false
       @errors = []
-      @years = year ? [year] : [1998]
-      @months = month ? [month] : [1]
+      @years = year ? [year] : (1998..2010)
+      @months = month ? [month] : (1..12)
     end
 
     def run
@@ -21,7 +24,7 @@ module Christies
 
     def extract_sales(month, year)
       sales = SalesExtractor.new(month, year).sales
-      sales.first(1).each do |sale|
+      sales.each do |sale|
         payload = build_payload(sale['sale_detail'], month, year)
         SaleProcessingJob.perform_async(payload)
       end
@@ -36,7 +39,7 @@ module Christies
 
     def extract_lots(sale_id, month, year)
       lots = LotsExtractor.new(@agent, sale_id).lots
-      lots.first(1).map { |lot| extract_lot(lot) }
+      lots.map { |lot| extract_lot(lot) }
     end
 
     def extract_lot(lot, report=nil)
