@@ -9,3 +9,8 @@ services:
       - ARTIFACTS_ENV=docker_development
     volumes:
       - .:/usr/src/artifacts_scrapper
+  data_api:
+    image: davidgeismar/artifacts_data_api:latest
+    environment:
+      - RAILS_ENV=docker_development
+      - SECRET_KEY_BASE=docker_development_secret

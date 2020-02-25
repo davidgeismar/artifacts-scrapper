@@ -1,12 +1,13 @@
 module Christies
-  LOGGER = Logger.new("| tee ./log/christies.log")
+  log_file = File.open("./log/christies.log", "w")
+  LOGGER = Logger.new MultiIO.new(STDOUT, log_file)
   class Scrapper
     YEAR_RANGE = (1998..2020)
     MONTH_RANGE = (1..12)
 
     def initialize(month=nil, year=nil)
       # cleaning logs every time the scrapper is launched
-      File.truncate('./log/christies.log', 0)
+      # File.truncate('./log/christies.log', 0)
       @agent = Mechanize.new
       @agent.redirect_ok = false
       @errors = []
@@ -39,7 +40,7 @@ module Christies
 
     def extract_lots(sale_id, month, year)
       lots = LotsExtractor.new(@agent, sale_id).lots
-      lots.map { |lot| extract_lot(lot) }
+      lots.first(2).map { |lot| extract_lot(lot) }
     end
 
     def extract_lot(lot, report=nil)

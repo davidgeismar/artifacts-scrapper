@@ -11,6 +11,7 @@ docker-compose up  -d --build
 run console into container
 docker exec -it scrapper_1 /bin/bash
 bundle exec sidekiq -r ./artifacts_scrapper.rb
+bundle exec sidekiq -r ./artifacts_scrapper.rb 2>&1 | tee ./log/sidekiq.log
 ruby scrap_sources.rb
 docker container kill $(docker ps -q)
 
