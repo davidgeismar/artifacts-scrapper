@@ -1,3 +1,22 @@
+# ARTIFACTS SCRAPPERS
+
+## INTRO
+This project sets up a bunch of data scrappers to collect art data. The more data sources will be integrated, the better !
+
+## Structure
+Each datasource has its own folder designated by the name of the datasource. You can your own extractors and jobs
+
+## Getting Started
+1. build your image
+`docker build .`
+2. run your image
+`docker run image_id`
+3. enter your image
+`docker exec -it scrapper_1 /bin/bash`
+4. execute commands
+`ruby scrap_sources.rb`
+
+
 ## FOR LOCAL DEV WITHOUT DOCKER
 rake db:create db:migrate
 bundle exec sidekiq -r ./artifacts_scrapper.rb 2>&1 | tee ./log/sidekiq.log
