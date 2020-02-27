@@ -40,11 +40,18 @@ module Christies
 
     def extract_lots(sale_id, month, year)
       lots = LotsExtractor.new(@agent, sale_id).lots
-      lots.map { |lot| extract_lot(lot) }
+      lots.first(2).map { |lot| extract_lot(lot) }.compact
     end
 
     def extract_lot(lot, report=nil)
-      lot = LotExtractor.new(@agent, lot)
+      begin
+        retries ||= 0
+        lot = LotExtractor.new(@agent, lot)
+      rescue StandardError => e
+        retry if (retries += 1) < 3
+        LOGGER.error("#{e.message}")
+        return nil
+      end
       lot.data
     end
   end

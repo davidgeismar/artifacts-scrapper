@@ -6,5 +6,3 @@ COPY Gemfile .
 COPY Gemfile.lock .
 RUN bundle install
 COPY . .
-RUN chmod +x ./startup.sh
-CMD ./startup.sh
