@@ -3,7 +3,7 @@ services:
   redis-server:
     image: redis
   scrapper:
-    build: .
+    image: davidgeismar/artifacts-scrapper:without-db
     command: 'ruby ./scrap_sources.rb'
     environment:
       - REDIS_URL=redis://redis-server:6379/0

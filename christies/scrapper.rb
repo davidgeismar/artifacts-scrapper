@@ -40,7 +40,7 @@ module Christies
 
     def extract_lots(sale_id, month, year)
       lots = LotsExtractor.new(@agent, sale_id).lots
-      lots.first(2).map { |lot| extract_lot(lot) }.compact
+      lots.map { |lot| extract_lot(lot) }.compact
     end
 
     def extract_lot(lot, report=nil)
