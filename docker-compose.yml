@@ -2,6 +2,7 @@ version: '3'
 services:
   redis-server:
     image: redis
+    restart: always
   scrapper:
     image: davidgeismar/artifacts-scrapper:without-db
     command: 'ruby ./scrap_sources.rb'
@@ -11,22 +12,25 @@ services:
       - DATA_API_BASE=http://data_api:3000
     volumes:
       - .:/usr/src/artifacts_scrapper
+    restart: always
     depends_on:
       - data_api
       - redis-server
   data_api:
+    restart: always
     image: davidgeismar/artifacts_data_api:latest
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: 'rails server -b 0.0.0.0'
     volumes:
-      - .:/artifacts_data_api
+      - ./log/production.log:/artifacts_data_api/log/docker_development.log
     environment:
       - RAILS_ENV=docker_development
       - SECRET_KEY_BASE=docker_development_secret
   sidekiq:
-    build: .
+    restart: always
+    image: davidgeismar/artifacts-scrapper:without-db
     command: 'bundle exec sidekiq -r ./artifacts_scrapper.rb 2>&1 | tee ./log/sidekiq.log'
     volumes:
-      - ./:/usr/src/artifacts_scrapper
+      - ./log/sidekiq.log:/usr/src/artifacts_scrapper/log/sidekiq.log
     environment:
       - REDIS_URL=redis://redis-server:6379/0
       - ARTIFACTS_ENV=docker_development

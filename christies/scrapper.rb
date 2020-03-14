@@ -5,14 +5,14 @@ module Christies
     YEAR_RANGE = (1998..2020)
     MONTH_RANGE = (1..12)
 
-    def initialize(month=nil, year=nil)
+    def initialize(months=nil, years=nil)
       # cleaning logs every time the scrapper is launched
       # File.truncate('./log/christies.log', 0)
       @agent = Mechanize.new
       @agent.redirect_ok = false
       @errors = []
-      @years = year ? [year] : (1998..2010)
-      @months = month ? [month] : (1..12)
+      @years = years || (1998..2020)
+      @months = months || (1..12)
     end
 
     def run
