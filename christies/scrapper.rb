@@ -8,6 +8,7 @@ module Christies
     def initialize(months=nil, years=nil)
       # cleaning logs every time the scrapper is launched
       # File.truncate('./log/christies.log', 0)
+      $stderr.reopen("./log/err.log", "w") if ENV['ARTIFACTS_ENV'] == 'docker_production'
       @agent = Mechanize.new
       @agent.redirect_ok = false
       @errors = []
