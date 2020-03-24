@@ -16,7 +16,7 @@ module Christies
     private
 
     def get_data
-      LOGGER.info("fetching lot data at #{@uri}")
+      # LOGGER.info("fetching lot data at #{@uri}")
       lot = { lotDetails: @lot }
       if @item_unavailable
         lot.merge({ extra_details: nil })

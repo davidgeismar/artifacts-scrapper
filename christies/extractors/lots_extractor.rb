@@ -14,7 +14,7 @@ module Christies
     private
 
     def get_lots
-      LOGGER.info("fetching lotlist for sale #{@sale_id} data at #{@uri}")
+      # LOGGER.info("fetching lotlist for sale #{@sale_id} data at #{@uri}")
       uri = URI.parse("https://www.christies.com/interfaces/LotFinderAPI/SearchResults.asmx/GetSaleLandingLots")
       request = Net::HTTP::Post.new(uri)
       request.content_type = "application/json; charset=UTF-8"

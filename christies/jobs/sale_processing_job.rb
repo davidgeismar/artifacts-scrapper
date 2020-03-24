@@ -4,7 +4,7 @@ module Christies
 
     def perform(sale)
       sale_id = JSON.parse(sale)['sale']["sale_id"]
-      LOGGER.info("sending sale #{sale_id} to artifacts api")
+      # LOGGER.info("sending sale #{sale_id} to artifacts api")
       response = HTTParty.post(
           "#{ENV['DATA_API_BASE']}/christies/sales",
           body: {
