@@ -61,4 +61,4 @@ docker container kill $(docker ps -q)
 redis-cli FLUSHALL
 => get read of all jobs
 
- bundle exec rake scrap_sources:scrap"[['christies'],nil,nil]"
+ bundle exec rake scrap_sources:scrap"[['christies'],nil,3]"

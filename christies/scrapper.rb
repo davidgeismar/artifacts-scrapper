@@ -25,35 +25,12 @@ module Christies
     end
 
     def extract_sales(month, year)
+      # for each month we extract all sales
       sales = SalesExtractor.new(month, year).sales
+      SalesProcessingJob.new.perform(sales.to_json)
       sales.each do |sale|
-        payload = build_payload(sale['sale_detail'], month, year)
-        SaleProcessingJob.perform_async(payload)
+        LotsProcessingJob.perform_async(sale['sale_detail']['sale_id'])
       end
-    end
-
-    def build_payload(sale_details, month, year)
-      {
-        sale: sale_details,
-        lots: extract_lots(sale_details['sale_id'], month, year)
-      }.to_json
-    end
-
-    def extract_lots(sale_id, month, year)
-      lots = LotsExtractor.new(@agent, sale_id).lots
-      lots.map { |lot| extract_lot(lot) }.compact
-    end
-
-    def extract_lot(lot, report=nil)
-      begin
-        retries ||= 0
-        lot = LotExtractor.new(@agent, lot)
-      rescue StandardError => e
-        retry if (retries += 1) < 3
-        LOGGER.error("#{e.message}")
-        return nil
-      end
-      lot.data
     end
   end
 end
