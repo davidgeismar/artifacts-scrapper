@@ -5,13 +5,11 @@ services:
     restart: always
   scrapper:
     image: davidgeismar/artifacts-scrapper:without-db
-    command: 'ruby ./scrap_sources.rb'
+    command: "bundle exec rake scrap_sources:scrap\"[['christies'],nil,[2019]]\""
     environment:
       - REDIS_URL=redis://redis-server:6379/0
       - ARTIFACTS_ENV=docker_development
       - DATA_API_BASE=http://data_api:3000
-    volumes:
-      - .:/usr/src/artifacts_scrapper
     restart: always
     depends_on:
       - data_api
@@ -20,8 +18,6 @@ services:
     restart: always
     image: davidgeismar/artifacts_data_api:latest
     command: 'rails server -b 0.0.0.0'
-    volumes:
-      - ./log/production.log:/artifacts_data_api/log/docker_development.log
     environment:
       - RAILS_ENV=docker_development
       - SECRET_KEY_BASE=docker_development_secret
@@ -29,8 +25,6 @@ services:
     restart: always
     image: davidgeismar/artifacts-scrapper:without-db
     command: 'bundle exec sidekiq -r ./artifacts_scrapper.rb 2>&1 | tee ./log/sidekiq.log'
-    volumes:
-      - ./log/sidekiq.log:/usr/src/artifacts_scrapper/log/sidekiq.log
     environment:
       - REDIS_URL=redis://redis-server:6379/0
       - ARTIFACTS_ENV=docker_development

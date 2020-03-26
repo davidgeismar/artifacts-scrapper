@@ -11,7 +11,7 @@ module Christies
           }
         )
       if response.code === 500
-        logger.debug "ARTIFACTS DATA API failed to process #{sale}"
+        logger.debug "ARTIFACTS DATA API failed to process #{sales}"
         logger.info response
       end
     end
